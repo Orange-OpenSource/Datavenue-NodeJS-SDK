@@ -1,0 +1,18 @@
+{
+  "name": "datavenue",
+  "version": "1.0.0",
+  "description": "sdk for datavenue platform",
+  "readmeFilename": "README.md",
+  "license": "Apache 2",
+  "author": {
+    "name": "Orange"
+  },
+   "dependencies": {
+    "q": "1.2.0",
+    "request": "2.55.0"
+  },
+  "devDependencies": {
+    "mocha": "2.2.4",
+    "global-tunnel": "1.2.0"
+  }
+}
