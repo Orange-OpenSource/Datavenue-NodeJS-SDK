@@ -5,7 +5,7 @@ Learn more about Datavenue at https://datavenue.orange.com
 
 ## Sample usage
 
-First, you need a Datavenue Account : https://datavenue.orange.com
+First, you need an Orange Partner account : https://datavenue.orange.com (getting started)
 
 Clone the projet on github, go to Sample directory and run node:
 
