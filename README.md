@@ -36,7 +36,7 @@ The Datavenue NodeJS SDK has externals dependencies to :
 
 ## Documentation
 
-The latest documentation is available on github. See file docs/user_guide_datavenue_sdk_nodejs_1 0 0.pdf
+The latest documentation is available on github. See file docs/user_guide_datavenue_sdk_nodejs_1.0.1.pdf
 
 
 ## License
