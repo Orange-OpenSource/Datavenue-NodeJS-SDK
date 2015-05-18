@@ -1,7 +1,7 @@
 {
   "name": "datavenue",
-  "version": "1.0.1",
-  "description": "sdk for datavenue platform",
+  "version": "1.0.2",
+  "description": "SDK for Orange Datavenue platform",
   "readmeFilename": "README.md",
   "license": "Apache 2",
   "author": {
