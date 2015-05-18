@@ -9,7 +9,7 @@ First, you need an Orange Partner account : https://datavenue.orange.com (gettin
 
 Clone the projet on github, go to Sample directory and run node:
 
-    git clone https://github.com/Orange-Datavenue/Datavenue-Java-SDK.git
+    git clone https://github.com/Orange-Datavenue/Datavenue-NodeJS-SDK.git
     cd Datavenue-NodeJS-SDK/Sample
     node server.js
 
