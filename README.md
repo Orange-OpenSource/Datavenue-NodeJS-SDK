@@ -24,7 +24,7 @@ The Node server will use the SDK for call some API on Datavenue platform.
 
 ## Installation
 
-The Datavenue NodeJS SDK is available through NPM (https://www.npmjs.com).
+The Datavenue NodeJS SDK is available through NPM (https://www.npmjs.com/package/datavenue).
 To install it, install NPM and run:
 
     npm install datavenue
@@ -34,14 +34,9 @@ The Datavenue NodeJS SDK has externals dependencies to :
     q - A library for promise (https://www.npmjs.com/package/q)
     request - A http client request (https://www.npmjs.com/package/request) 
 
-And externals devdependencies to :
-
-    mocha - Test framework (https://www.npmjs.com/package/mocha)
-    global-tunnel - Global HTTP & HTTPS tunneling (https://www.npmjs.com/package/global-tunnel)
-
 ## Documentation
 
-The latest documentation is available at https://www.npmjs.com/package/datavenue
+The latest documentation is available on github. See file user_guide_datavenue_sdk_nodejs_1 0 0.pdf
 
 
 ## License
