@@ -1,9 +1,9 @@
 //Datavenue url
 var URL;
-				
+
 //Your master key
 var xISSKey;
-				
+
 //Orange Partner Key
 var xOAPIKey;
 
@@ -17,13 +17,33 @@ var querystring = require('querystring');
 require('global-tunnel').initialize();
 
 var datavenue = require('datavenue');
+var Q = require('q');
 
 var Template;
 var Datasource;
 var Prototype;
 var Account;
 
+var log="";
+function clearLog() {
+	log="";
+}
+function logEvent(event) {
+	log+=String(event)+"<br>";
+	console.log(event);
+}
+function getLog()
+{
+	return log;
+}
+function returnLogs(res){
+					console.log("Ret");
+				res.write("<html><body>");
+				res.write(getLog());
+				res.write("<br><br><a href='/'>Retry</a></body></html>");
+				res.end();
 
+}
 function getFile(localPath, res, mimeType) {
 	fs.readFile(localPath, function(err, contents) {
 		if (!err) {
@@ -48,7 +68,7 @@ function callTemplateAPIs(){
 		body : bodyTemplate
 	};
 	//Create template
-	Template.createTemplate(parameters).then( function(data) {
+	return Template.createTemplate(parameters).then( function(data) {
 		bodyTemplate = {
 			name : "Sample NodeJS 2",
 			description : "Template de test 2 pour SDK nodejs"
@@ -58,26 +78,28 @@ function callTemplateAPIs(){
 			id : data.body.id,
 			body : bodyTemplate
 		};
-		console.log('Template created.');
+		logEvent('Template created.');
 		//Update template
-		Template.updateTemplate(parameters).then(function(data) {
-			console.log('Template updated.');
+	      return Template.updateTemplate(parameters).then(function(data) {
+			logEvent('Template updated.');
+		}).then(function(data){
 			//Get template
-			Template.getTemplate(parameters).then(function(data){
-				console.log('Template getted.');
+			return Template.getTemplate(parameters).then(function(data){
+				logEvent('Template getted.');
 				//Delete template
-				Template.deleteTemplate(parameters).then(function(data){
-					console.log('Template deleted.');
+				return Template.deleteTemplate(parameters).then(function(data){
+					logEvent('Template deleted.');
+
 				});
 			});
 		});
 	},function(reason){
 		if(reason instanceof Error){
-			console.log('Error when create datasource : ' + JSON.stringify(reason.message));
+			logEvent('Error when create datasource : ' + JSON.stringify(reason.message));
 		} else if (typeof (reason) === 'object'){
-			console.log('Error when create datasource : ' + ' HTTP error : ' + reason.response.statusCode + ' Body Error : ' + JSON.stringify(reason.body));
+			logEvent('Error when create datasource : ' + ' HTTP error : ' + reason.response.statusCode + ' Body Error : ' + JSON.stringify(reason.body));
 		} else {
-			console.log('Error when create datasource.');
+			logEvent('Error when create datasource.');
 		}
 	});
 }
@@ -91,7 +113,7 @@ function callDatasourceAPIs(){
 		body : bodyDatasource
 	};
 	//Create datasource
-	Datasource.createDatasource(parameters).then( function(data) {
+	return Datasource.createDatasource(parameters).then( function(data) {
 		bodyDatasource = {
 			name : "Sample NodeJS 2",
 			description : "Datasource de test 2 pour SDK nodejs"
@@ -102,18 +124,19 @@ function callDatasourceAPIs(){
 			id : datasourceID,
 			body : bodyDatasource
 		};
-		console.log('Datasource created.');
+		logEvent('Datasource created.');
+		console.log(parameters);
 		//Update datasource
-		Datasource.updateDatasource(parameters).then(function(data) {
-			console.log('Datasource updated.');
+		return Datasource.updateDatasource(parameters).then(function(data) {
+			logEvent('Datasource updated.');
 			parameters = {
 				xISSKey : xISSKey,
 				datasources_id : datasourceID,
 				body : bodyDatasource
 			};
 			//Get datasource
-			Datasource.getDatasource(parameters).then(function(data){
-				console.log('Datasource getted.');
+			return Datasource.getDatasource(parameters).then(function(data){
+				logEvent('Datasource getted.');
 				parameters = {
 					xISSKey : xISSKey,
 					id : datasourceID,
@@ -130,18 +153,18 @@ function callDatasourceAPIs(){
 						body : bodyApiKey,
 						id : datasourceID
 				};
-				Datasource.createApiKey(parameters).then(function(data) {
-					console.log('Datasource API key created.');
+				return Datasource.createApiKey(parameters).then(function(data) {
+					logEvent('Datasource API key created.');
 					//Delete datasource.
-					Datasource.deleteDatasource(parameters).then(function(data) {
-						console.log('Datasource delete.');
+					return Datasource.deleteDatasource(parameters).then(function(data) {
+						logEvent('Datasource delete.');
 					});
 				});
 			});
 		});
 	});
 }
-	
+
 function callPrototypeAPIs(){
 	var bodyPrototype = {
 		name : "Sample NodeJS",
@@ -152,7 +175,7 @@ function callPrototypeAPIs(){
 		body : bodyPrototype
 	};
 	//Create prototype
-	Prototype.createPrototype(parameters).then( function(data) {
+	return Prototype.createPrototype(parameters).then( function(data) {
 		var prototypeID = data.body.id;
 		bodyPrototype = {
 			name : "Sample NodeJS 2",
@@ -163,13 +186,13 @@ function callPrototypeAPIs(){
 			id : prototypeID,
 			body : bodyPrototype
 		};
-		console.log('Prototype created.');
+		logEvent('Prototype created.');
 		//Update prototype
-		Prototype.updatePrototype(parameters).then(function(data) {
-			console.log('Prototype updated.');
+		return Prototype.updatePrototype(parameters).then(function(data) {
+			logEvent('Prototype updated.');
 			//Get prototype
-			Prototype.getPrototype(parameters).then(function(data){
-				console.log('Prototype getted.');
+			return Prototype.getPrototype(parameters).then(function(data){
+				logEvent('Prototype getted.');
 				parameters = {
 						xISSKey : xISSKey,
 						id : prototypeID,
@@ -186,11 +209,11 @@ function callPrototypeAPIs(){
 							body : bodyApiKey,
 							id : prototypeID
 					};
-					Prototype.createApiKey(parameters).then(function(data) {
-						console.log('Prototype API key created.');
+					return Prototype.createApiKey(parameters).then(function(data) {
+						logEvent('Prototype API key created.');
 						//Delete prototype.
-						Prototype.deletePrototype(parameters).then(function(data) {
-							console.log('Prototype delete.');
+						return Prototype.deletePrototype(parameters).then(function(data) {
+							logEvent('Prototype delete.');
 						});
 					});
 			});
@@ -201,6 +224,7 @@ function callPrototypeAPIs(){
 http.createServer(
 
 	function(req, res) {
+		clearLog();
 		if(req.method === 'GET'){
 			var slash = false;
 			if(req.url === "/"){
@@ -210,12 +234,12 @@ http.createServer(
 			var params = querystring.parse(url.parse(req.url).query);
 			var pathName = url.parse(req.url).pathname || "index.html";
 			var ext = path.extname(pathName);
-			
+
 			var localPath = __dirname;
 			if(slash){
 				localPath = localPath + "/";
 			}
-	
+
 			var validExtensions = {
 				".html" : "text/html",
 				".js" : "application/javascript",
@@ -239,14 +263,14 @@ http.createServer(
 						res.end();
 					}
 				});
-	
+
 			} else {
 				console.log("Invalid file extension detected: " + ext);
 			}
 		} else if (req.method === 'POST') {
 
 			var postData = '';
-			
+
 			//Get all POST data
 			req.addListener("data", function(postDataChunk) {
 				postData += postDataChunk;
@@ -254,34 +278,45 @@ http.createServer(
 
 			//At end of POST data
 			req.on('end', function () {
-				
-				
+				var output="OK";
+
 				//POST data parsing
 				var post = querystring.parse(postData);
-				
+
 				//Get POST data datavenue url
 				URL = post.url;
-				
+
 				//Get POST data masterKey
 				xISSKey = post.masterKey;
-				
+
 				//Get POST data Orange Partner Key
 				xOAPIKey = post.opeKey;
-				
+
 				var object= {xOAPIKey:post.opeKey};
-				Template = new datavenue.Template.Template(object);
-				Datasource = new datavenue.Datasource.Datasource(object);
-				Prototype = new datavenue.Prototype.Prototype(object);
-				Account = new datavenue.Account.Account(object);
-				console.log("================= Start call API =================");
-				callTemplateAPIs();
-				callDatasourceAPIs();
-				callPrototypeAPIs();
+				try{
+					Template = new datavenue.Template.Template(object);
+					Datasource = new datavenue.Datasource.Datasource(object);
+					Prototype = new datavenue.Prototype.Prototype(object);
+					Account = new datavenue.Account.Account(object);
+					logEvent("================= Start call API =================");
+
+					var promises=Q.all([callTemplateAPIs(),
+						              callDatasourceAPIs(),
+						              callPrototypeAPIs()])
+					.then(function(){
+						returnLogs(res);
+					}).fail(function(error){
+						logEvent("ERROR:"+JSON.stringify(error.body));
+					  	returnLogs(res);
+					  });
+
+ 				}catch(err){
+					logEvent(err);
+					returnLogs(res);
+				}
+
 
 			});
-			
-			//return user to index.html
-			getFile("index.html", res, "text/html");
 		}
 	}
 ).listen(8080, "127.0.0.1");

@@ -10,12 +10,11 @@ First, you need an Orange Partner account : https://datavenue.orange.com (gettin
 Clone the projet on github, go to Sample directory and run node:
 
     git clone https://github.com/Orange-Datavenue/Datavenue-NodeJS-SDK.git
-    cd Datavenue-NodeJS-SDK/Sample
+    cd Datavenue-NodeJS-SDK/sample
     node server.js
 
 Open a browser and go to http://localhost:8080/
 
-    Put your Account ID 
     Put your Orange Partner Key
     Put your Primary Master Key
     Press "Submit" button
