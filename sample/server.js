@@ -305,12 +305,9 @@ http.createServer(
 						              callPrototypeAPIs()])
 					.then(function(){
 						returnLogs(res);
-					}).
-					fail(function(error){
-	                              console.log("Got a fail....");
+					}).fail(function(error){
 						logEvent("ERROR:"+JSON.stringify(error.body));
 					  	returnLogs(res);
-					  	console.log(JSON.stringify(error.body));
 					  });
 
  				}catch(err){
