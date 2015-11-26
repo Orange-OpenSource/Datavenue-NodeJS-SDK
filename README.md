@@ -16,7 +16,7 @@ Clone the projet on github, go to Sample directory and run node:
 Open a browser and go to http://localhost:8080/
 
     Put your Orange Partner Key
-    Put your Primary Master Key
+    Put your Default Master Key
     Press "Submit" button
 
 The Node server will use the SDK for call some API on Datavenue platform.
